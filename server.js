@@ -63,7 +63,7 @@ http.createServer(function (req, res) {
             console.log((new Date()).toISOString() + ' PDF loaded (' + rawData.byteLength + ' Bytes)');
 
             // Get the first page.
-            pdfDocument.getPage(1).then(function (page) {
+            pdfDocument.getPage(2).then(function (page) {
                 // Render the page on a Node canvas with 100% scale.
                 const viewport = page.getViewport({ scale: 1, });
                 const canvasFactory = new NodeCanvasFactory();

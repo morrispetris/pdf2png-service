@@ -89,7 +89,7 @@ http.createServer(function (req, res) {
                             if (error) {
                                 console.error('Error: ' + error);
                             } else {
-                                console.log('Finished converting first page of PDF file to a PNG image.');
+                                console.log('Finished converting ' + i + ' of PDF file to a PNG image.');
                             }
                         });
                     });

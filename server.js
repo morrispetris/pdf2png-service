@@ -129,3 +129,4 @@ http.createServer(function (req, res) {
 }).listen(port, "0.0.0.0");
 
 console.log('PDF2PNG Server listening on ' + port + ' waiting for PDF data via POST requests');
+

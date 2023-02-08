@@ -85,10 +85,8 @@ http.createServer(function (req, res) {
                     var image = canvasAndContext.canvas.toDataURL();
                     fs.writeFile('output.png', image, function (error) {
                         if (error) {
-                            callback(false, null, error)
                             console.error('Error: ' + error);
                         } else {
-                            callback(true, image, null)
                             console.log('Finished converting first page of PDF file to a PNG image.');
                         }
                     });

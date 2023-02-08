@@ -1,3 +1,4 @@
+const fs = require('fs');
 const http = require('http')
 const {createCanvas} = require('canvas')
 const assert = require('assert')

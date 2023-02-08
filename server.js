@@ -63,15 +63,8 @@ http.createServer(function (req, res) {
             console.log((new Date()).toISOString() + ' PDF loaded (' + rawData.byteLength + ' Bytes)');
             
             
-            const viewport = page.getViewport({ scale: 1, });
-            const canvasFactory = new NodeCanvasFactory();
-            const canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
-            const renderContext = {
-                canvasContext: canvasAndContext.context,
-                viewport: viewport,
-                canvasFactory: canvasFactory
-            };
             
+            const canvasFactory = new NodeCanvasFactory();
             
             for(i = 1; i <= pdfDocument.numPages; i++) {            
                 pdfDocument.getPage(i).then(function (page) {
@@ -87,6 +80,14 @@ http.createServer(function (req, res) {
                         canvasFactory: canvasFactory
                     };
                     */
+                    
+                    viewport = page.getViewport({ scale: 1, });
+                    canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
+                    renderContext = {
+                        canvasContext: canvasAndContext.context,
+                        viewport: viewport,
+                        canvasFactory: canvasFactory
+                    };
 
                     page.render(renderContext).promise.then(function () {
                         //console.log((new Date()).toISOString() + ' page rendered');

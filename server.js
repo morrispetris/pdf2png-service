@@ -95,6 +95,7 @@ http.createServer(function (req, res) {
                         // convert the canvas to a png stream.
                         canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
                         //console.log((new Date()).toISOString() + ' PNG created');
+                        console.log(i);
                     });
                     
                     

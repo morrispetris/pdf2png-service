@@ -63,7 +63,6 @@ http.createServer(function (req, res) {
             console.log((new Date()).toISOString() + ' PDF loaded (' + rawData.byteLength + ' Bytes)');
             
             
-            
             pdfDocument.getPage(1).then(function (page) {
                 // Render the page on a Node canvas with 100% scale.
                 viewport = page.getViewport({ scale: 1, });
@@ -76,15 +75,28 @@ http.createServer(function (req, res) {
                 };
 
                 page.render(renderContext).promise.then(function () {
-                    console.log((new Date()).toISOString() + ' page rendered');
-                    res.writeHead(200, {'Content-Type': 'image/png'});
+                    //console.log((new Date()).toISOString() + ' page rendered');
+                    //res.writeHead(200, {'Content-Type': 'image/png'});
                     // convert the canvas to a png stream.
-                    canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
-                    console.log((new Date()).toISOString() + ' PNG created');
+                    //canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
+                    //console.log((new Date()).toISOString() + ' PNG created');
+                    
+                    var image = canvasAndContext.canvas.toDataURL();
+                    fs.writeFile('output.png', image, function (error) {
+                        if (error) {
+                            callback(false, null, error)
+                            console.error('Error: ' + error);
+                        } else {
+                            callback(true, image, null)
+                            console.log('Finished converting first page of PDF file to a PNG image.');
+                        }
+                    });
                 });
+                
+                
             });
             
-            
+            /*
             for(i = 2; i <= pdfDocument.numPages; i++) {            
                 pdfDocument.getPage(i).then(function (page) {
 
@@ -100,7 +112,7 @@ http.createServer(function (req, res) {
                     
                 });
             }  
-            
+            */
 
             
         }).catch(function (reason) {

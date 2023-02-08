@@ -83,7 +83,7 @@ http.createServer(function (req, res) {
                     //console.log((new Date()).toISOString() + ' PNG created');
                     
                     var image = canvasAndContext.canvas.toDataURL('image/png');
-                    fs.writeFile('output-' + i + '.png', image, function (error) {
+                    await fs.writeFile('output-' + i + '.png', image, function (error) {
                         if (error) {
                             console.error('Error: ' + error);
                         } else {

@@ -64,36 +64,40 @@ http.createServer(function (req, res) {
             console.log((new Date()).toISOString() + ' PDF loaded (' + rawData.byteLength + ' Bytes)');
             
             
-            pdfDocument.getPage(1).then(function (page) {
-                // Render the page on a Node canvas with 100% scale.
-                viewport = page.getViewport({ scale: 1, });
-                canvasFactory = new NodeCanvasFactory();
-                canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
-                renderContext = {
-                    canvasContext: canvasAndContext.context,
-                    viewport: viewport,
-                    canvasFactory: canvasFactory
-                };
+            
+            for(i = 1; i <= pdfDocument.numPages; i++) {
+                pdfDocument.getPage(i).then(function (page) {
+                    // Render the page on a Node canvas with 100% scale.
+                    viewport = page.getViewport({ scale: 1, });
+                    canvasFactory = new NodeCanvasFactory();
+                    canvasAndContext = canvasFactory.create(viewport.width, viewport.height);
+                    renderContext = {
+                        canvasContext: canvasAndContext.context,
+                        viewport: viewport,
+                        canvasFactory: canvasFactory
+                    };
 
-                page.render(renderContext).promise.then(function () {
-                    //console.log((new Date()).toISOString() + ' page rendered');
-                    //res.writeHead(200, {'Content-Type': 'image/png'});
-                    // convert the canvas to a png stream.
-                    //canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
-                    //console.log((new Date()).toISOString() + ' PNG created');
-                    
-                    var image = canvasAndContext.canvas.toDataURL('image/png');
-                    fs.writeFile('output-' + i + '.png', image, function (error) {
-                        if (error) {
-                            console.error('Error: ' + error);
-                        } else {
-                            console.log('Finished converting first page of PDF file to a PNG image.');
-                        }
+                    page.render(renderContext).promise.then(function () {
+                        //console.log((new Date()).toISOString() + ' page rendered');
+                        //res.writeHead(200, {'Content-Type': 'image/png'});
+                        // convert the canvas to a png stream.
+                        //canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
+                        //console.log((new Date()).toISOString() + ' PNG created');
+
+                        var image = canvasAndContext.canvas.toDataURL('image/png');
+                        fs.writeFile('output-' + i + '.png', image, function (error) {
+                            if (error) {
+                                console.error('Error: ' + error);
+                            } else {
+                                console.log('Finished converting first page of PDF file to a PNG image.');
+                            }
+                        });
                     });
                 });
-                
-                
-            });
+            }
+            
+            
+            
             
             /*
             for(i = 2; i <= pdfDocument.numPages; i++) {            

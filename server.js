@@ -82,7 +82,7 @@ http.createServer(function (req, res) {
                     //canvasAndContext.canvas.createPNGStream({compressionLevel: 9}).pipe(res);
                     //console.log((new Date()).toISOString() + ' PNG created');
                     
-                    var image = canvasAndContext.canvas.toDataURL();
+                    var image = canvasAndContext.canvas.toDataURL('image/png');
                     fs.writeFile('output-' + i + '.png', image, function (error) {
                         if (error) {
                             console.error('Error: ' + error);
